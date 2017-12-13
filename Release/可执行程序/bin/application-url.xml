@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<objects xmlns='http://www.springframework.net' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:db="http://www.springframework.net/database"
+         xmlns:tx="http://www.springframework.net/tx"
+         xmlns:aop="http://www.springframework.net/aop"
+         xsi:schemaLocation="http://www.springframework.net http://www.springframework.net/schema/objects/spring-objects-1.3.xsd
+         http://www.springframework.net/database http://www.springframework.net/schema/db/spring-database-1.1.xsd
+         http://www.springframework.net/tx http://www.springframework.net/schema/tx/spring-tx-1.1.xsd
+         http://www.springframework.net/aop http://www.springframework.net/schema/aop/spring-aop-1.1.xsd"
+         default-autowire="byName">
+
+
+  <object id="RunningConfigModel" type="QN.IIS.Service.Model.RunningConfigModel,QN.IIS.Service">
+    <property name="LogPath" value="c:\\RecoveryWebsiteLog.txt" />
+    <property name="RunningMode" value="ONETIME" />
+  </object>
+  <object id="KeepIISAliveService" type="QN.IIS.Service.KeepIISAliveServiceImpl,QN.IIS.Service">
+    <property name="IISModelList">
+      <list element-type="QN.IIS.Service.Model.IISModel, QN.IIS.Service">
+        <object type="QN.IIS.Service.Model.IISModel, QN.IIS.Service">
+          <property name="WebSiteName" value="rdif" />
+          <property name="AppPoolName" value="rdif" />
+        </object>
+        <object type="QN.IIS.Service.Model.IISModel, QN.IIS.Service">
+          <property name="WebSiteName" value="ywservice.stdevelog.com" />
+          <property name="AppPoolName" value="ywservice.stdevelog.com" />
+        </object>
+      </list>
+    </property>
+  </object>
+
+
+</objects>

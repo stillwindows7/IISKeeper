@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns='http://www.springframework.net' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:db="http://www.springframework.net/database"
+         xmlns:tx="http://www.springframework.net/tx"
+         xmlns:aop="http://www.springframework.net/aop"
+         xsi:schemaLocation="http://www.springframework.net http://www.springframework.net/schema/objects/spring-objects-1.3.xsd
+         http://www.springframework.net/database http://www.springframework.net/schema/db/spring-database-1.1.xsd
+         http://www.springframework.net/tx http://www.springframework.net/schema/tx/spring-tx-1.1.xsd
+         http://www.springframework.net/aop http://www.springframework.net/schema/aop/spring-aop-1.1.xsd"
+         
+         default-autowire="byName">
+
+  <import resource="application-business.xml"/>
+  <import resource="application-url.xml"/>
+  <!--<import resource="application-logger.xml"/>-->
+  
+  <!---事务处理相关配置-->
+  <!--对象拦截器 ReadCommitted不允许读入别人尚未提交的脏数据-->
+  <!--<object id="MyObjectOperation" type="Spring.Aop.Support.SdkRegularExpressionMethodPointcut, Spring.Aop">
+    <property name="patterns">
+      <list>
+        <value>.*ServiceTransaction</value>
+      </list>
+    </property>
+  </object>
+  <object id="noMyObjectOperation" type="Spring.Aop.Support.SdkRegularExpressionMethodPointcut, Spring.Aop">
+    <property name="patterns">
+      <list>
+		  <value>.*ServiceImpl</value>
+      </list>
+    </property>
+  </object>
+  <object id="LongTimeMyObjectOperation" type="Spring.Aop.Support.SdkRegularExpressionMethodPointcut, Spring.Aop">
+    <property name="patterns">
+      <list>
+        <value>.*ServiceLongTimeTransaction</value>
+      </list>
+    </property>
+  </object>
+  --><!--ReadCommitted不允许读入别人尚未提交的脏数据--><!--
+  <tx:advice id="txAdvice">
+    <tx:attributes>
+      <tx:method name="*" no-rollback-for="CommitError" rollback-for="BaseException" isolation="ReadCommitted" timeout="120" />
+    </tx:attributes>
+  </tx:advice>
+
+	--><!--ReadUnCommitted允许读入别人尚未提交的脏数据--><!-- 
+  <tx:advice id="notxAdvice">
+    <tx:attributes>
+      <tx:method name="*" no-rollback-for="CommitError" rollback-for="BaseException" isolation="ReadUncommitted" timeout="120"/>
+    </tx:attributes>
+  </tx:advice>
+
+  --><!--ReadCommitted不允许读入别人尚未提交的脏数据(事务时间长)--><!--
+  <tx:advice id="longTimeTxAdvice">
+    <tx:attributes>
+      <tx:method name="*" no-rollback-for="CommitError" rollback-for="BaseException" isolation="ReadCommitted" timeout="6000" />
+    </tx:attributes>
+  </tx:advice>
+
+  <aop:config>
+    <aop:advisor advice-ref="txAdvice" pointcut-ref="MyObjectOperation" />
+    <aop:advisor advice-ref="notxAdvice" pointcut-ref="noMyObjectOperation" />
+    <aop:advisor advice-ref="longTimeTxAdvice" pointcut-ref="LongTimeMyObjectOperation" />
+  </aop:config>-->
+
+  <!--<object id="transactionManager"
+           type="Spring.Data.Core.AdoPlatformTransactionManager, Spring.Data">
+  </object>-->
+  
+</objects>
